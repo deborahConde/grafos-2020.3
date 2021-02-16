@@ -148,7 +148,7 @@ int No::removerAresta(int id, bool directed, No* target_no) {
 
         if (aux->getProxAresta() == this->ultima_aresta)
             this->ultima_aresta = aux->getProxAresta();
-
+        aux = nullptr;
         delete aux;
 
         //Verifica se o grafo é direcionado

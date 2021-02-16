@@ -84,23 +84,121 @@ No* Grafo::getUltimoNo() {
 	This allows the correct updating of the numbers of edges in the graph being directed or not.
 */
 
-void Grafo::inserirNo(int id) {
+void Grafo::printGrafo() {
+	No* no = this->primeiro_no;
+	Aresta* aresta;
+	while (no != nullptr)
+	{
+		cout << no->getId();
+		aresta = no->getPrimeiraAresta();
+		if (aresta != nullptr) {
+			while (aresta != nullptr)
+			{
+				cout << "-->" << aresta->getTargetId();
+				aresta = aresta->getProxAresta();
+			}
+		}
+		no = no->getProxNo();
+		cout << endl;
+	}
+}
 
+void Grafo::inserirNo(int id) {
+	No* prox;
+	No* aux = nullptr;
+	if (this->primeiro_no == nullptr)
+	{
+		this->primeiro_no = new No(id);
+	}
+	else
+	{
+
+		prox = this->primeiro_no;
+
+		while (prox != nullptr)
+		{
+			aux = prox;
+			prox = prox->getProxNo();
+
+		}
+		aux->setProxNo(new No(id));
+
+	}
+	
 }
 
 void Grafo::inserirAresta(int id, int target_id, float peso) {
 
+	No* no = this->primeiro_no;
+	
+
+	while (no->getId() != id) {
+		no = no->getProxNo();
+	}
+
+	no->inserirAresta(target_id, peso);
+	this->numero_arestas++;
 }
+
 
 void Grafo::removerNo(int id) {
+	No* no;
+	No* noAux = new No(id);
+	No* anterior;
 
+	for (no = this->primeiro_no; no != nullptr; no = no->getProxNo())
+	{
+		no->removerAresta(id, 0, noAux);
+	}
+
+	no = this->primeiro_no;
+
+	//se o no a ser excluido for o primeiro na lista
+	if (no->getId() == id) {
+		this->primeiro_no = no->getProxNo();
+		no->removerTodasArestas();
+		delete no;
+		return;
+	}
+	//anterior recebe o primeiro
+	anterior = no;
+	for (no = no->getProxNo(); no != nullptr; no = no->getProxNo())
+	{	
+		//no = o proximo depois do anterior
+		if (no->getId() == id) {
+			anterior->setProxNo(no->getProxNo());
+			no->removerTodasArestas();
+			delete no;
+			return;
+		}
+		//anterior = no atual antes da proxima iteracao
+		anterior = no;
+	}
 }
 
+
 bool Grafo::buscaNo(int id) {
+	No* no;
+	for (no = this->primeiro_no; no != nullptr ; no = no->getProxNo())
+	{
+		if (no->getId() == id)
+			return true;
+	}
+
 	return false;
 }
 
 No* Grafo::getNo(int id) {
+	if (buscaNo(id))
+	{
+		No* no;
+		for (no = this->primeiro_no; no != nullptr; no = no->getProxNo())
+		{
+			if (no->getId() == id)
+				return no;
+		}
+	}
+
 	return nullptr;
 }
 

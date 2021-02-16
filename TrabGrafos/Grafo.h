@@ -39,6 +39,7 @@ class Grafo {
         void removerNo(int id);
         bool buscaNo(int id);
         No* getNo(int id);
+        void printGrafo();
 
         //methods phase1
         void topologicalSorting();
@@ -49,7 +50,7 @@ class Grafo {
         float floydMarshall(int idSource, int idTarget);
         float dijkstra(int idSource, int idTarget);
 
-        //methods phase1
+        //methods phase2
         float greed();
         float greedRandom();
         float greedRactiveRandom();

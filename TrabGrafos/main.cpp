@@ -188,7 +188,31 @@ int mainMenu(ofstream& output_file, Grafo* grafo) {
     return 0;
 }
 
-int main(int argc, char const* argv[]) {
+
+//main para testes
+int main()
+{
+    cout << "hello world!" << endl;
+    Grafo* grafo = new Grafo(5,0,0,0);
+    grafo->inserirNo(1);
+    grafo->inserirNo(2);
+    grafo->inserirNo(3);
+    grafo->inserirNo(4);
+    grafo->inserirAresta(1, 3, 0);
+    grafo->inserirAresta(1, 2, 0);
+    grafo->inserirAresta(1, 4, 0);
+    grafo->inserirAresta(2, 3, 0);
+    grafo->inserirAresta(2, 4, 0);
+    grafo->printGrafo();
+    cout << endl;
+    grafo->removerNo(3);
+    grafo->printGrafo();
+
+    
+}
+
+//Mudar o nome dessa mainPrincipal para somente main qundo for executar o programa sem ser para testes
+int mainPrincipal(int argc, char const* argv[]) {
 
     //Verificação se todos os parâmetros do programa foram entrados
     if (argc != 6) {
