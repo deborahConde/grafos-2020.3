@@ -96,10 +96,12 @@ void No::inserirAresta(int target_id, float peso) {
     //Verifica se tem pelo menos uma aresta no no
     if (this->primeira_aresta != nullptr) {
         //Alocando a nova aresta e mantendo a integridade da lista de arestas
-        Aresta* aresta = new Aresta(target_id);
-        aresta->setPeso(peso);
-        this->ultima_aresta->setNextAresta(aresta);
-        this->ultima_aresta = aresta;
+        if (!this->buscaAresta(target_id)) {
+            Aresta* aresta = new Aresta(target_id);
+            aresta->setPeso(peso);
+            this->ultima_aresta->setNextAresta(aresta);
+            this->ultima_aresta = aresta;
+        }
     }
     else {
         //Alocando a nova aresta e mantendo a integridade da lista de arestas

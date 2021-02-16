@@ -203,11 +203,28 @@ int main()
     grafo->inserirAresta(1, 4, 0);
     grafo->inserirAresta(2, 3, 0);
     grafo->inserirAresta(2, 4, 0);
+    /*
+    grafo->inserirNo(1);
+    grafo->inserirNo(2);
+    grafo->inserirNo(3);
+    grafo->inserirNo(4);
+    grafo->inserirNo(5);
+    grafo->inserirNo(6);
+    grafo->inserirNo(7);
+
+    grafo->inserirAresta(1, 2, 0);
+    grafo->inserirAresta(2, 4, 0);
+    grafo->inserirAresta(4, 7, 0);
+    grafo->inserirAresta(2, 3, 0);
+    grafo->inserirAresta(5, 6, 0);*/
+
     grafo->printGrafo();
     cout << endl;
-    grafo->removerNo(3);
-    grafo->printGrafo();
+    int vertices[] = { 1,3,4 };
+    Grafo* subInduzido = grafo->subgrafoInduzido(vertices, 3);
 
+    cout << "Subgrafo Induzido pelos vertices 1, 2 ,3" << endl;
+    subInduzido->printGrafo();
     
 }
 
