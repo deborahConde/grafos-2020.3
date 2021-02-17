@@ -42,6 +42,8 @@ class Grafo {
         void printGrafo();
 
         //methods phase1
+        Grafo* subgrafoInduzido(int* ids, int tam);
+
         void topologicalSorting();
         void breadthFirstSearch(ofstream& output_file);
         Grafo* getVertexInduced(int* listIdNodes);

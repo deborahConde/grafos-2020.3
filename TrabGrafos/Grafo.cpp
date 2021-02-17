@@ -89,7 +89,7 @@ void Grafo::printGrafo() {
 	Aresta* aresta;
 	while (no != nullptr)
 	{
-		cout << no->getId();
+		cout << no->getId() << ": ";
 		aresta = no->getPrimeiraAresta();
 		if (aresta != nullptr) {
 			while (aresta != nullptr)
@@ -131,12 +131,26 @@ void Grafo::inserirAresta(int id, int target_id, float peso) {
 
 	No* no = this->primeiro_no;
 	
+	
 
 	while (no->getId() != id) {
 		no = no->getProxNo();
 	}
-
 	no->inserirAresta(target_id, peso);
+
+	no->incrementOutDegree();
+
+	//caso o grafo nao seja direcionado, adicionar a aresta tambem ao vertice de chegada
+	if (!this->direcionado) {
+		no = this->primeiro_no;
+
+		while (no->getId() != target_id) {
+			no = no->getProxNo();
+		}
+		no->inserirAresta(id, peso);
+		no->incrementInDegree();
+	}
+
 	this->numero_arestas++;
 }
 
@@ -203,6 +217,47 @@ No* Grafo::getNo(int id) {
 }
 
 //Function that prints a set of edges belongs breadth tree
+
+
+
+Grafo* Grafo::subgrafoInduzido(int* ids, int tam) {
+	
+	Grafo* subgrafoInduzido= new Grafo(tam,0,0,0);
+	No* no;
+
+
+	//inserir todos os nos do subgrafo induzido
+	for (int i = 0; i < tam; i++)
+	{
+		for (no = this->primeiro_no; no != nullptr; no = no->getProxNo())
+		{		
+			if (no->getId() == ids[i]) {
+				subgrafoInduzido->inserirNo(no->getId());
+			}
+		}
+	}
+
+	//inserir todas as arestas no subgrafo induzido
+	
+	no = this->primeiro_no;
+	for (int i = 0; i < tam; i++)
+	{
+		if (subgrafoInduzido->buscaNo(no->getId())) {
+			for (int j = 0; j < tam; j++)
+			{
+
+				if (no->buscaAresta(ids[j])) {
+					subgrafoInduzido->inserirAresta(no->getId(), ids[j], 0);
+				}
+
+			}
+		}
+		no = no->getProxNo();
+	}
+	
+	return subgrafoInduzido;
+	
+}
 
 void Grafo::breadthFirstSearch(ofstream& output_file) {
 
