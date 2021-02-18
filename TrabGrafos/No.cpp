@@ -37,8 +37,8 @@ No::~No() {
 // Gets
 Aresta* No::getPrimeiraAresta() {
 
-    return this->primeira_aresta;
-
+   return this->primeira_aresta;
+   
 }
 
 Aresta* No::getUltimaAresta() {
@@ -74,12 +74,13 @@ float No::getPeso() {
 No* No::getProxNo() {
 
     return this->prox_no;
-
+    
 }
 
 
 // Sets
 void No::setProxNo(No* prox_no){
+
 
     this->prox_no = prox_no;
 

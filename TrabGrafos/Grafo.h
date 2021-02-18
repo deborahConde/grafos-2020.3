@@ -18,6 +18,7 @@ class Grafo {
 		bool noComPeso;
 		No* primeiro_no;
 		No* ultimo_no;
+        int numNos;
 	
 
 	public:
@@ -38,6 +39,7 @@ class Grafo {
         void inserirAresta(int id, int target_id, float peso);
         void removerNo(int id);
         bool buscaNo(int id);
+        void colocarNoInicio(No* no);
         No* getNo(int id);
         void printGrafo();
 
@@ -51,6 +53,7 @@ class Grafo {
         Grafo* agmPrim();
         float floydMarshall(int idSource, int idTarget);
         float dijkstra(int idSource, int idTarget);
+        int min_distance(int* dist, bool* visited);
 
         //methods phase2
         float greed();

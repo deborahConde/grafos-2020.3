@@ -18,6 +18,7 @@ using namespace std;
 
 // Construtor
 Grafo::Grafo(int ordem, bool direcionado, bool arestaComPeso, bool noComPeso) {
+	this->numNos = 0;
 	this->ordem = ordem;
 	this->direcionado = direcionado;
 	this->arestaComPeso = arestaComPeso;
@@ -122,20 +123,28 @@ void Grafo::inserirNo(int id) {
 
 		}
 		aux->setProxNo(new No(id));
-
 	}
-	
+	numNos++;
 }
 
 void Grafo::inserirAresta(int id, int target_id, float peso) {
-
+	
+	//checa se o no  existe, se nao existe cria o no
+	if (!this->buscaNo(id)) {
+		this->inserirNo(id);
+	}
+	//checa se o no target existe, se nao existe cria o no
+	if (!this->buscaNo(target_id)) {
+		this->inserirNo(target_id);
+	}
+	
 	No* no = this->primeiro_no;
-	
-	
 
+	//encontra o no de saida da aresta para inserir 
 	while (no->getId() != id) {
 		no = no->getProxNo();
 	}
+
 	no->inserirAresta(target_id, peso);
 
 	no->incrementOutDegree();
@@ -149,6 +158,7 @@ void Grafo::inserirAresta(int id, int target_id, float peso) {
 		}
 		no->inserirAresta(id, peso);
 		no->incrementInDegree();
+		
 	}
 
 	this->numero_arestas++;
@@ -216,6 +226,8 @@ No* Grafo::getNo(int id) {
 	return nullptr;
 }
 
+
+
 //Function that prints a set of edges belongs breadth tree
 
 
@@ -230,7 +242,7 @@ Grafo* Grafo::subgrafoInduzido(int* ids, int tam) {
 	for (int i = 0; i < tam; i++)
 	{
 		for (no = this->primeiro_no; no != nullptr; no = no->getProxNo())
-		{		
+		{	
 			if (no->getId() == ids[i]) {
 				subgrafoInduzido->inserirNo(no->getId());
 			}
@@ -269,9 +281,85 @@ float Grafo::floydMarshall(int idSource, int idTarget) {
 	return 0;
 }
 
+int Grafo::min_distance(int* dist, bool* visited) {
+	int Min = INT_MAX, index = 0;
+	for (int i = 0; i < numNos; i++)
+	{
+		if (dist[i] <= Min && visited[i] == false) {
+			Min = dist[i];
+			index = i;
+		}
+	}
+	return index;
+}
+
 
 
 float Grafo::dijkstra(int idSource, int idTarget) {
+
+	int* dist = new int[numNos];
+	bool* visited = new bool[numNos];
+	int it = 0;
+	int cont = 0;
+	No* no;
+
+	for (int i = 0; i < numNos; i++) {
+		dist[i] = INT_MAX;
+		visited[i] = false;
+	}
+		
+
+	
+
+	no = this->primeiro_no;
+	while (no->getId() != idSource) {
+		no = no->getProxNo();
+		cont++;
+	}
+
+	dist[cont] = 0;
+	//colocarNoInicio(no);
+
+	for (int i = 0; i < numNos-1; i++)
+	{
+		int u = min_distance(dist, visited);
+		visited[u] = true;
+
+		
+		no = this->primeiro_no;
+		//iterando ate o no "u";
+		it = 0;
+		while (it != u)
+		{	
+			if (no->getProxNo()!=nullptr)
+			{
+				no = no->getProxNo();
+				it++;
+			}
+			else
+			{
+				no = this->primeiro_no;
+			}
+		}
+		
+		//iterando pelas arestas do no "u"
+		
+		for (Aresta* aresta = no->getPrimeiraAresta(); aresta != nullptr; aresta = aresta->getProxAresta())
+		{
+			if (visited[aresta->getTargetId()] == false && dist[u] != INT_MAX && dist[aresta->getTargetId()] > dist[u] + aresta->getPeso())
+				dist[aresta->getTargetId()] = dist[u] + aresta->getPeso();
+		}
+		
+		
+
+	}
+
+	cout << "Distancia entre:" << endl;
+	for (int i = 0; i < numNos; i++)
+	{	
+		cout << "No "<< idSource<<" --> No " << i << "--> " << dist[i] << endl;
+	}
+
 	return 0;
 }
 

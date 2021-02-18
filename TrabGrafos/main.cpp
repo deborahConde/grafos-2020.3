@@ -193,16 +193,17 @@ int mainMenu(ofstream& output_file, Grafo* grafo) {
 int main()
 {
     cout << "hello world!" << endl;
-    Grafo* grafo = new Grafo(5,0,0,0);
-    grafo->inserirNo(1);
-    grafo->inserirNo(2);
-    grafo->inserirNo(3);
-    grafo->inserirNo(4);
-    grafo->inserirAresta(1, 3, 0);
-    grafo->inserirAresta(1, 2, 0);
-    grafo->inserirAresta(1, 4, 0);
-    grafo->inserirAresta(2, 3, 0);
-    grafo->inserirAresta(2, 4, 0);
+    Grafo* grafo = new Grafo(9,1,0,0);
+   
+    grafo->inserirAresta(0, 1, 2);//
+    grafo->inserirAresta(0, 2, 4);//
+    grafo->inserirAresta(1, 2, 1);//
+    grafo->inserirAresta(1, 3, 4);//
+    grafo->inserirAresta(1, 4, 5);//
+    grafo->inserirAresta(2, 1, 5);//
+    grafo->inserirAresta(2, 3, 2);//
+    grafo->inserirAresta(2, 4, 3);//
+    grafo->inserirAresta(3, 4, 1);//
     /*
     grafo->inserirNo(1);
     grafo->inserirNo(2);
@@ -218,13 +219,13 @@ int main()
     grafo->inserirAresta(2, 3, 0);
     grafo->inserirAresta(5, 6, 0);*/
 
+    
+
     grafo->printGrafo();
     cout << endl;
-    int vertices[] = { 1,3,4 };
-    Grafo* subInduzido = grafo->subgrafoInduzido(vertices, 3);
+    grafo->dijkstra(1, 2);
 
-    cout << "Subgrafo Induzido pelos vertices 1, 2 ,3" << endl;
-    subInduzido->printGrafo();
+    cout << endl << endl;
     
 }
 
