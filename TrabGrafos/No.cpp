@@ -186,6 +186,21 @@ int No::removerAresta(int id, bool directed, No* target_no) {
     return 0;
 }
 
+
+float No::getPesoAresta(int target_id) {
+    //Verifica se tem ao menos uma aresta no no
+    if (this->primeira_aresta != nullptr) {
+        //procurando pela aresta especifica que é igual ao id passado
+        for (Aresta* aux = this->primeira_aresta; aux != nullptr; aux = aux->getProxAresta())
+        {
+            if (aux->getTargetId() == target_id)
+                return aux->getPeso();
+        }
+    }
+
+    return 1;
+}
+
 bool No::buscaAresta(int target_id) {
     //Verifica se tem ao menos uma aresta no no
     if (this->primeira_aresta != nullptr) {

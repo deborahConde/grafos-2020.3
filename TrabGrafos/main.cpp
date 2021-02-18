@@ -223,7 +223,11 @@ int main()
 
     grafo->printGrafo();
     cout << endl;
-    grafo->dijkstra(7, 2);
+    Grafo* subGrafo;
+    int ids[] = { 0,2,7,4 };
+    subGrafo = grafo->subgrafoInduzido(ids,4,1,0,0);
+    subGrafo->printGrafo();
+    // grafo->dijkstra(7, 2);
 
     cout << endl << endl;
     

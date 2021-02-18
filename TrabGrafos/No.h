@@ -33,6 +33,7 @@ class No {
         float getPeso();
         int getIndex();
         No* getProxNo();
+        float getPesoAresta(int target_id);
         //Sets
         void setProxNo(No* No);
         void setPeso(float peso);

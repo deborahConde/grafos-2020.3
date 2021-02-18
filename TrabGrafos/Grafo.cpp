@@ -236,9 +236,9 @@ int Grafo::getIndexNo(int id) {
 
 
 
-Grafo* Grafo::subgrafoInduzido(int* ids, int tam) {
+Grafo* Grafo::subgrafoInduzido(int* ids, int tam, int direcionado, int arestaComPeso, int noComPeso) {
 	
-	Grafo* subgrafoInduzido= new Grafo(tam,0,0,0);
+	Grafo* subgrafoInduzido= new Grafo(tam,direcionado,arestaComPeso,noComPeso);
 	No* no;
 
 
@@ -263,7 +263,7 @@ Grafo* Grafo::subgrafoInduzido(int* ids, int tam) {
 			{
 
 				if (no->buscaAresta(ids[j])) {
-					subgrafoInduzido->inserirAresta(no->getId(), ids[j], 0);
+					subgrafoInduzido->inserirAresta(no->getId(), ids[j], no->getPesoAresta(ids[j]));
 				}
 
 			}
