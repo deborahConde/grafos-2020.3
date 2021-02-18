@@ -109,7 +109,7 @@ void Grafo::inserirNo(int id) {
 	No* aux = nullptr;
 	if (this->primeiro_no == nullptr)
 	{
-		this->primeiro_no = new No(id);
+		this->primeiro_no = new No(id,numNos);
 	}
 	else
 	{
@@ -122,8 +122,9 @@ void Grafo::inserirNo(int id) {
 			prox = prox->getProxNo();
 
 		}
-		aux->setProxNo(new No(id));
+		aux->setProxNo(new No(id,numNos));
 	}
+	
 	numNos++;
 }
 
@@ -226,6 +227,9 @@ No* Grafo::getNo(int id) {
 	return nullptr;
 }
 
+int Grafo::getIndexNo(int id) {
+	return getNo(id)->getIndex();		
+}
 
 
 //Function that prints a set of edges belongs breadth tree
@@ -345,9 +349,15 @@ float Grafo::dijkstra(int idSource, int idTarget) {
 		//iterando pelas arestas do no "u"
 		
 		for (Aresta* aresta = no->getPrimeiraAresta(); aresta != nullptr; aresta = aresta->getProxAresta())
-		{
-			if (visited[aresta->getTargetId()] == false && dist[u] != INT_MAX && dist[aresta->getTargetId()] > dist[u] + aresta->getPeso())
-				dist[aresta->getTargetId()] = dist[u] + aresta->getPeso();
+		{	
+			int index = getIndexNo(aresta->getTargetId());
+
+			if (visited[index] == false && dist[u] != INT_MAX && dist[index] > dist[u] + aresta->getPeso())
+				dist[index] = dist[u] + aresta->getPeso();
+
+			//ERRO ESTA AQUI, MODIFICAR O ARESTA-GETTARGETID() PARA NO->getIndexList(aresta->getTargetId);
+			//if (visited[aresta->getTargetId()] == false && dist[u] != INT_MAX && dist[aresta->getTargetId()] > dist[u] + aresta->getPeso())
+				//dist[aresta->getTargetId()] = dist[u] + aresta->getPeso();
 		}
 		
 		

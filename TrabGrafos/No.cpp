@@ -8,6 +8,17 @@ using namespace std;
 
 //Construtor
 No::No(int id) {
+    this->index = -1;
+    this->id = id;
+    this->in_degree = 0;
+    this->out_degree = 0;
+    this->peso = 0;
+    this->primeira_aresta = nullptr;
+    this->ultima_aresta = nullptr;
+    this->prox_no = nullptr;
+}
+No::No(int id,int index) {
+    this->index = index;
     this->id = id;
     this->in_degree = 0;
     this->out_degree = 0;
@@ -51,6 +62,11 @@ int No::getId() {
 
     return this->id;
 
+}
+
+
+int No::getIndex() {
+    return this->index;
 }
 
 int No::getInDegree() {

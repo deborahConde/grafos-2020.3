@@ -17,8 +17,10 @@ class No {
         unsigned int out_degree;
         float peso;
         No* prox_no;
+        int index;
     public:
         //Construtor
+        No(int id,int index);
         No(int id);
         //Destrutor
         ~No();
@@ -29,6 +31,7 @@ class No {
         int getInDegree();
         int getOutDegree();
         float getPeso();
+        int getIndex();
         No* getProxNo();
         //Sets
         void setProxNo(No* No);

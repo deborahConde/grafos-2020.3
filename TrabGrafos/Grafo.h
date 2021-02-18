@@ -34,6 +34,7 @@ class Grafo {
         bool getNoComPeso();
         No* getPrimeiroNo();
         No* getUltimoNo();
+        int getIndexNo(int id);
         //Outros metodos
         void inserirNo(int id);
         void inserirAresta(int id, int target_id, float peso);

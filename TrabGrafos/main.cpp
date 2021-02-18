@@ -198,12 +198,12 @@ int main()
     grafo->inserirAresta(0, 1, 2);//
     grafo->inserirAresta(0, 2, 4);//
     grafo->inserirAresta(1, 2, 1);//
-    grafo->inserirAresta(1, 3, 4);//
+    grafo->inserirAresta(1, 7, 4);//
     grafo->inserirAresta(1, 4, 5);//
     grafo->inserirAresta(2, 1, 5);//
-    grafo->inserirAresta(2, 3, 2);//
+    grafo->inserirAresta(2, 7, 2);//
     grafo->inserirAresta(2, 4, 3);//
-    grafo->inserirAresta(3, 4, 1);//
+    grafo->inserirAresta(7, 4, 1);//
     /*
     grafo->inserirNo(1);
     grafo->inserirNo(2);
@@ -223,7 +223,7 @@ int main()
 
     grafo->printGrafo();
     cout << endl;
-    grafo->dijkstra(1, 2);
+    grafo->dijkstra(7, 2);
 
     cout << endl << endl;
     
