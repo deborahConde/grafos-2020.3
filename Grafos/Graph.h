@@ -56,6 +56,8 @@ class Graph{
         float greed();
         float greedRandom();
         float greedRactiveRandom();
+
+        void printGrafo();
     private:
         //Auxiliar methods
 

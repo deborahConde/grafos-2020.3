@@ -223,3 +223,25 @@ Graph* agmKuskal(){
 Graph* agmPrim(){
 
 }
+
+void Graph::printGrafo() {
+    cout << "Imprimindo o Grafo" << endl;
+	Node* no = this->first_node;
+	Edge* aresta;
+	while (no != nullptr)
+	{  
+		cout << no->getId();
+		aresta = no->getFirstEdge();
+		if (aresta != nullptr) {
+			while (aresta != nullptr)
+			{
+				cout << "-" << aresta->getTargetId();
+				aresta = aresta->getNextEdge();
+			}
+		}
+		no = no->getNextNode();
+		cout << endl;
+	}
+    cout << "Terminou a impressão" << endl;
+}
+
