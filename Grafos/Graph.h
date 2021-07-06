@@ -58,6 +58,7 @@ class Graph{
         float greedRactiveRandom();
 
         void printGrafo();
+        void printGrafoDot();
     private:
         //Auxiliar methods
 

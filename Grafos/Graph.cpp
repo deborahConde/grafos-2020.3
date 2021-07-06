@@ -245,3 +245,31 @@ void Graph::printGrafo() {
     cout << "Terminou a impressão" << endl;
 }
 
+void Graph::printGrafoDot() {
+    ofstream gradoDotFile;
+    gradoDotFile.open("./saida/graph.dot",ios::in);
+
+    if(gradoDotFile.is_open()) {
+        cout << "Salvando o Grafo" << endl;
+        Node* no = this->first_node;
+        Edge* aresta;
+        gradoDotFile << "graph { \n";
+        while (no != nullptr) {  
+            aresta = no->getFirstEdge();
+            if (aresta != nullptr) {
+                while (aresta != nullptr)
+                {
+                    gradoDotFile << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
+                    aresta = aresta->getNextEdge();
+                }
+            }
+            no = no->getNextNode();
+        }
+    gradoDotFile << "}\n" << endl;
+    cout << "Grafo armazanado em /saida/graph.dot" << endl;
+    } else {
+        cout << "Falha ao abrir o arquivo" << endl;
+    }
+    gradoDotFile.close();
+    
+}
