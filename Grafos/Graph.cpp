@@ -173,10 +173,17 @@ bool Graph::searchNode(int id) {
     return false;
 }
 
-Node *Graph::getNode(int id)
-{
-
-    
+Node *Graph::getNode(int id) {
+    if (searchNode(id))
+	{
+		Node* no;
+		for (no = this->first_node; no != nullptr; no = no->getNextNode())
+		{
+            if (no->getId() == id)
+				return no;
+		}
+	}
+	return nullptr;
 }
 
 
