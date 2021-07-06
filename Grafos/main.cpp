@@ -221,7 +221,7 @@ int main(int argc, char const *argv[]) {
 
     //Abrindo arquivo de entrada
     ifstream input_file;
-    ofstream output_file;
+    fstream output_file;
     input_file.open(argv[1], ios::in);
     output_file.open(argv[2], ios::out | ios::trunc);
 
@@ -238,7 +238,7 @@ int main(int argc, char const *argv[]) {
 
 
     //mainMenu(output_file, graph);
-    graph->printGrafoDot();
+    graph->printGrafoDot(argv[2]);
 
 
     //Fechando arquivo de entrada

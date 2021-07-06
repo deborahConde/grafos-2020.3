@@ -245,28 +245,31 @@ void Graph::printGrafo() {
     cout << "Terminou a impressão" << endl;
 }
 
-void Graph::printGrafoDot(ofstream output_file) {
-    if(output_file.is_open()) {
+void Graph::printGrafoDot(string path) {
+    ofstream grafoDotFile;
+    grafoDotFile.open(path,ios::in);
+
+    if(grafoDotFile.is_open()) {
         cout << "Salvando o Grafo" << endl;
         Node* no = this->first_node;
         Edge* aresta;
-        output_file << "graph { \n";
+        grafoDotFile << "graph { \n";
         while (no != nullptr) {  
             aresta = no->getFirstEdge();
             if (aresta != nullptr) {
                 while (aresta != nullptr)
                 {
-                    output_file << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
+                    grafoDotFile << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
                     aresta = aresta->getNextEdge();
                 }
             }
             no = no->getNextNode();
         }
-    output_file << "}\n" << endl;
-    cout << "Grafo armazanado em /saida/graph.dot" << endl;
+    grafoDotFile << "}\n" << endl;
+    cout << "Grafo armazanado em /home/romulo/www/Grafos/arquivos/outputFile.txt" << endl;
     } else {
         cout << "Falha ao abrir o arquivo" << endl;
     }
-    output_file.close();
+    grafoDotFile.close();
     
 }

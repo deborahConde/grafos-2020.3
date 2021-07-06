@@ -58,7 +58,7 @@ class Graph{
         float greedRactiveRandom();
 
         void printGrafo();
-        void printGrafoDot(ofstream output_file);
+        void printGrafoDot(string path);
     private:
         //Auxiliar methods
 
