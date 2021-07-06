@@ -129,8 +129,39 @@ void Graph::insertEdge(int id, int target_id, float weight) {
     
 }
 
-void Graph::removeNode(int id){ 
-    
+void Graph::removeNode(int id) { 
+    Node* no;
+	Node* noAux = new Node(id);
+	Node* anterior;
+
+	for (no = this->first_node; no != nullptr; no = no->getNextNode())
+	{
+		no->removeEdge(id, 0, noAux);
+	}
+
+	no = this->first_node;
+
+	//se o no a ser excluido for o primeiro na lista
+	if (no->getId() == id) {
+		this->first_node = no->getNextNode();
+		no->removeAllEdges();
+		delete no;
+		return;
+	}
+	//anterior recebe o primeiro
+	anterior = no;
+	for (no = no->getNextNode(); no != nullptr; no = no->getNextNode())
+	{	
+		//no = o proximo depois do anterior
+		if (no->getId() == id) {
+			anterior->setNextNode(no->getNextNode());
+			no->removeAllEdges();
+			delete no;
+			return;
+		}
+		//anterior = no atual antes da proxima iteracao
+		anterior = no;
+	}
 }
 
 bool Graph::searchNode(int id)
