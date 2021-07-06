@@ -83,16 +83,17 @@ Graph* leituraInstancia(ifstream& input_file, int directed, int weightedEdge, in
     int numEdges;
 
     //Pegando a ordem do grafo
-    input_file >> order >> numEdges;
+    input_file >> order;
 
     //Criando objeto grafo
     Graph* graph = new Graph(order, directed, weightedEdge, weightedNode);
 
     //Leitura de arquivo
     while(input_file >> idNodeSource >> idNodeTarget) {
-
+        if (!graph->searchNode(idNodeSource)){
+            graph->insertNode(idNodeSource);
+        }
         graph->insertEdge(idNodeSource, idNodeTarget, 0);
-
     }
 
     return graph;
@@ -237,7 +238,7 @@ int main(int argc, char const *argv[]) {
 
 
     //mainMenu(output_file, graph);
-
+    graph->printGrafoDot();
 
 
     //Fechando arquivo de entrada
