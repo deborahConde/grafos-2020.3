@@ -52,6 +52,7 @@ int Graph::getOrder()
 
     return this->order;
 }
+
 int Graph::getNumberEdges()
 {
 
@@ -95,9 +96,21 @@ Node *Graph::getLastNode()
     The outdegree attribute of nodes is used as a counter for the number of edges in the graph.
     This allows the correct updating of the numbers of edges in the graph being directed or not.
 */
-void Graph::insertNode(int id)
-{
-    
+void Graph::insertNode(int id) {
+    Node* next;
+	Node* aux = nullptr;
+	if (this->first_node == nullptr) {
+		this->first_node = new Node(id);
+	}
+	else {
+		next = this->first_node;
+		while (next != nullptr)
+		{
+			aux = next;
+			next = next->getNextNode();
+		}
+		aux->setNextNode(new Node(id));
+	}
 }
 
 void Graph::insertEdge(int id, int target_id, float weight)

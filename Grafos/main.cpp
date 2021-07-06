@@ -236,7 +236,7 @@ int main(int argc, char const *argv[]) {
         cout << "Unable to open " << argv[1];
 
 
-    mainMenu(output_file, graph);
+    //mainMenu(output_file, graph);
 
 
 
