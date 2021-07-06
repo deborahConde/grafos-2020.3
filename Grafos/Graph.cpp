@@ -113,9 +113,19 @@ void Graph::insertNode(int id) {
 	}
 }
 
-void Graph::insertEdge(int id, int target_id, float weight)
-{
+void Graph::insertEdge(int id, int target_id, float weight) {
+    Node* node = this->first_node;
 
+    if(node != nullptr) {
+        while (node->getId() != id) {
+            node = node->getNextNode();
+        }
+	} else {
+        insertNode(id);
+    }
+
+	node->insertEdge(target_id, weight);
+	this->number_edges++;
     
 }
 
