@@ -263,6 +263,7 @@ void Graph::printGrafoDot(ofstream& file) {
 			if (aresta != nullptr) {
 				while (aresta != nullptr)
 				{	
+					
 					if( this->directed == 1) {
 						file << "   " << no->getId() << "->" << aresta->getTargetId() << "\n";
 					} else if (this->weighted_edge == 1) {
