@@ -30,6 +30,12 @@ Graph::Graph(int order, bool directed, bool weighted_edge, bool weighted_node)
     this->number_edges = 0;
 }
 
+Graph::Graph(int ordem){
+	this->order = ordem;
+	this->first_node = this->last_node = nullptr;
+   this->number_edges = 0;
+}
+
 // Destructor
 Graph::~Graph()
 {
@@ -67,8 +73,7 @@ bool Graph::getDirected()
 //Function that verifies if the graph is weighted at the edges
 bool Graph::getWeightedEdge()
 {
-
-    return this->weighted_edge;
+   return this->weighted_edge;
 }
 
 //Function that verifies if the graph is weighted at the nodes
@@ -117,13 +122,12 @@ void Graph::insertEdge(int id, int target_id, float weight) {
     Node* node = this->first_node;
 
     if(node != nullptr) {
-        while (node->getId() != id) {
-            node = node->getNextNode();
-        }
+		while (node->getId() != id) {
+		node = node->getNextNode();
+		}
 	} else {
-        insertNode(id);
+      insertNode(id);
     }
-
 	node->insertEdge(target_id, weight);
 	this->number_edges++;
     
@@ -235,7 +239,7 @@ void Graph::printGrafo() {
 		if (aresta != nullptr) {
 			while (aresta != nullptr)
 			{
-				cout << "-" << aresta->getTargetId();
+				cout << "-(" << aresta->getWeight() << ")-" << aresta->getTargetId();
 				aresta = aresta->getNextEdge();
 			}
 		}
@@ -245,31 +249,40 @@ void Graph::printGrafo() {
     cout << "Terminou a impressão" << endl;
 }
 
-void Graph::printGrafoDot(string path) {
-    ofstream grafoDotFile;
-    grafoDotFile.open(path,ios::in);
+void Graph::printGrafoDot(ofstream& file) {
+   //  ofstream grafoDotFile;
+   //  grafoDotFile.open(path,ios::in);
 
-    if(grafoDotFile.is_open()) {
-        cout << "Salvando o Grafo" << endl;
-        Node* no = this->first_node;
-        Edge* aresta;
-        grafoDotFile << "graph { \n";
-        while (no != nullptr) {  
-            aresta = no->getFirstEdge();
-            if (aresta != nullptr) {
-                while (aresta != nullptr)
-                {
-                    grafoDotFile << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
-                    aresta = aresta->getNextEdge();
-                }
-            }
-            no = no->getNextNode();
-        }
-    grafoDotFile << "}\n" << endl;
-    cout << "Grafo armazanado em /home/romulo/www/Grafos/arquivos/outputFile.txt" << endl;
+    if(file.is_open()) {
+		cout << "Salvando o Grafo" << endl;
+		Node* no = this->first_node;
+		Edge* aresta;
+		file << "graph { \n";
+		while (no != nullptr) {  
+			aresta = no->getFirstEdge();
+			if (aresta != nullptr) {
+				while (aresta != nullptr)
+				{	
+					if( this->directed == 1) {
+						file << "   " << no->getId() << "->" << aresta->getTargetId() << "\n";
+					} else if (this->weighted_edge == 1) {
+						file << "   " << no->getId() << "--" << aresta->getTargetId();
+						file << " [label=" << aresta->getWeight() <<",weight=" << aresta->getWeight() <<"]" << "\n";
+					} else if (this->weighted_node == 1) {
+
+					} else {
+						file << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
+					}
+					aresta = aresta->getNextEdge();
+				}
+			}
+			no = no->getNextNode();
+		}
+		file << "}\n" << endl;
+		cout << "Grafo armazanado em /home/romulo/www/Grafos/arquivos/outputFile.txt" << endl;
     } else {
         cout << "Falha ao abrir o arquivo" << endl;
     }
-    grafoDotFile.close();
+    file.close();
     
 }

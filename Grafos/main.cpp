@@ -74,27 +74,47 @@ Graph* leitura(ifstream& input_file, int directed, int weightedEdge, int weighte
     return graph;
 }
 
-Graph* leituraInstancia(ifstream& input_file, int directed, int weightedEdge, int weightedNode){
+Graph* leituraInstancia(ifstream& input_file, int direcionado, int ponderado, int peso){
 
     //Variáveis para auxiliar na criação dos nós no Grafo
     int idNodeSource;
     int idNodeTarget;
     int order;
-    int numEdges;
+    int valPesoAresta;
 
     //Pegando a ordem do grafo
     input_file >> order;
 
     //Criando objeto grafo
-    Graph* graph = new Graph(order, directed, weightedEdge, weightedNode);
+    Graph* graph = new Graph(order, direcionado, ponderado, peso);
 
     //Leitura de arquivo
-    while(input_file >> idNodeSource >> idNodeTarget) {
-        if (!graph->searchNode(idNodeSource)){
-            graph->insertNode(idNodeSource);
+
+    
+
+    // Para um grafo direcionado
+    if ( ponderado == 1) {
+        // Para um grafo ponderado (Peso nas arestas)
+        while(input_file >> idNodeSource >> idNodeTarget >> valPesoAresta) {
+            if (!graph->searchNode(idNodeSource)){
+                graph->insertNode(idNodeSource);
+            }
+            graph->insertEdge(idNodeSource, idNodeTarget, valPesoAresta);
         }
-        graph->insertEdge(idNodeSource, idNodeTarget, 0);
+    } else {
+        // Para um grafo simples
+        while(input_file >> idNodeSource >> idNodeTarget) {
+            if (!graph->searchNode(idNodeSource)){
+                graph->insertNode(idNodeSource);
+            }
+            graph->insertEdge(idNodeSource, idNodeTarget, 0);
+        }
     }
+    
+
+    // Para um grafo peso nos vertices
+
+    
 
     return graph;
 }
@@ -213,6 +233,10 @@ int main(int argc, char const *argv[]) {
     string program_name(argv[0]);
     string input_file_name(argv[1]);
 
+    int direcionado = atoi(argv[3]);
+    int ponderado = atoi(argv[4]);
+    int peso = atoi(argv[5]);
+
     string instance;
     if(input_file_name.find("v") <= input_file_name.size()){
         string instance = input_file_name.substr(input_file_name.find("v"));
@@ -221,7 +245,7 @@ int main(int argc, char const *argv[]) {
 
     //Abrindo arquivo de entrada
     ifstream input_file;
-    fstream output_file;
+    ofstream output_file;
     input_file.open(argv[1], ios::in);
     output_file.open(argv[2], ios::out | ios::trunc);
 
@@ -231,14 +255,14 @@ int main(int argc, char const *argv[]) {
 
     if(input_file.is_open()){
 
-        graph = leituraInstancia(input_file, atoi(argv[3]), atoi(argv[4]), atoi(argv[5]));
+        graph = leituraInstancia(input_file, direcionado, ponderado, peso);
 
     }else
         cout << "Unable to open " << argv[1];
 
 
     //mainMenu(output_file, graph);
-    graph->printGrafoDot(argv[2]);
+    graph->printGrafoDot(output_file);
 
 
     //Fechando arquivo de entrada

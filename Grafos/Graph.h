@@ -26,6 +26,7 @@ class Graph{
     public:
         //Constructor
         Graph(int order, bool directed, bool weighted_edge, bool weighted_node);
+        Graph(int ordem);
         //Destructor
         ~Graph();
         //Getters
@@ -58,7 +59,7 @@ class Graph{
         float greedRactiveRandom();
 
         void printGrafo();
-        void printGrafoDot(string path);
+        void printGrafoDot(ofstream& file);
     private:
         //Auxiliar methods
 
