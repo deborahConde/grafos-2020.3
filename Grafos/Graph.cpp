@@ -205,9 +205,9 @@ float Graph::floydMarshall(int idSource, int idTarget){
 
    
 
-float Graph::dijkstra(int idSource, int idTarget){
-    
-}
+float Graph::dijkstra(int origem, int destino){
+	return 0;
+};
 
 //function that prints a topological sorting
 void topologicalSorting(){

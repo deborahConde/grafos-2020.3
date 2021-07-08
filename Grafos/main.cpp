@@ -264,7 +264,6 @@ int main(int argc, char const *argv[]) {
     //mainMenu(output_file, graph);
     graph->printGrafoDot(output_file);
 
-
     //Fechando arquivo de entrada
     input_file.close();
 
