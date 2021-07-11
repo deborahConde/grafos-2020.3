@@ -26,6 +26,7 @@ class Graph{
     public:
         //Constructor
         Graph(int order, bool directed, bool weighted_edge, bool weighted_node);
+        Graph(int ordem);
         //Destructor
         ~Graph();
         //Getters
@@ -46,7 +47,7 @@ class Graph{
         //methods phase1
         void topologicalSorting();
         void breadthFirstSearch(ofstream& output_file);
-        Graoh* getVertexInduced(int* listIdNodes);
+        Graph* getVertexInduced(int* listIdNodes);
         Graph* agmKuskal();
         Graph* agmPrim();
         float floydMarshall(int idSource, int idTarget);
@@ -56,6 +57,9 @@ class Graph{
         float greed();
         float greedRandom();
         float greedRactiveRandom();
+
+        void printGrafo();
+        void printGrafoDot(ofstream& file);
     private:
         //Auxiliar methods
 

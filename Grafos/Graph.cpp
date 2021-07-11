@@ -30,6 +30,12 @@ Graph::Graph(int order, bool directed, bool weighted_edge, bool weighted_node)
     this->number_edges = 0;
 }
 
+Graph::Graph(int ordem){
+	this->order = ordem;
+	this->first_node = this->last_node = nullptr;
+   this->number_edges = 0;
+}
+
 // Destructor
 Graph::~Graph()
 {
@@ -52,6 +58,7 @@ int Graph::getOrder()
 
     return this->order;
 }
+
 int Graph::getNumberEdges()
 {
 
@@ -66,8 +73,7 @@ bool Graph::getDirected()
 //Function that verifies if the graph is weighted at the edges
 bool Graph::getWeightedEdge()
 {
-
-    return this->weighted_edge;
+   return this->weighted_edge;
 }
 
 //Function that verifies if the graph is weighted at the nodes
@@ -95,30 +101,93 @@ Node *Graph::getLastNode()
     The outdegree attribute of nodes is used as a counter for the number of edges in the graph.
     This allows the correct updating of the numbers of edges in the graph being directed or not.
 */
-void Graph::insertNode(int id)
-{
+void Graph::insertNode(int id) {
+    Node* next;
+	Node* aux = nullptr;
+	if (this->first_node == nullptr) {
+		this->first_node = new Node(id);
+	}
+	else {
+		next = this->first_node;
+		while (next != nullptr)
+		{
+			aux = next;
+			next = next->getNextNode();
+		}
+		aux->setNextNode(new Node(id));
+	}
+}
+
+void Graph::insertEdge(int id, int target_id, float weight) {
+    Node* node = this->first_node;
+
+    if(node != nullptr) {
+		while (node->getId() != id) {
+		node = node->getNextNode();
+		}
+	} else {
+      insertNode(id);
+    }
+	node->insertEdge(target_id, weight);
+	this->number_edges++;
     
 }
 
-void Graph::insertEdge(int id, int target_id, float weight)
-{
+void Graph::removeNode(int id) { 
+    Node* no;
+	Node* noAux = new Node(id);
+	Node* anterior;
 
-    
+	for (no = this->first_node; no != nullptr; no = no->getNextNode())
+	{
+		no->removeEdge(id, 0, noAux);
+	}
+
+	no = this->first_node;
+
+	//se o no a ser excluido for o primeiro na lista
+	if (no->getId() == id) {
+		this->first_node = no->getNextNode();
+		no->removeAllEdges();
+		delete no;
+		return;
+	}
+	//anterior recebe o primeiro
+	anterior = no;
+	for (no = no->getNextNode(); no != nullptr; no = no->getNextNode())
+	{	
+		//no = o proximo depois do anterior
+		if (no->getId() == id) {
+			anterior->setNextNode(no->getNextNode());
+			no->removeAllEdges();
+			delete no;
+			return;
+		}
+		//anterior = no atual antes da proxima iteracao
+		anterior = no;
+	}
 }
 
-void Graph::removeNode(int id){ 
-    
+bool Graph::searchNode(int id) {
+    Node* no;
+    for (no = this->first_node; no != nullptr ; no = no->getNextNode()) {
+        if (no->getId() == id)
+            return true;
+    }
+    return false;
 }
 
-bool Graph::searchNode(int id)
-{
-    
-}
-
-Node *Graph::getNode(int id)
-{
-
-    
+Node *Graph::getNode(int id) {
+    if (searchNode(id))
+	{
+		Node* no;
+		for (no = this->first_node; no != nullptr; no = no->getNextNode())
+		{
+            if (no->getId() == id)
+				return no;
+		}
+	}
+	return nullptr;
 }
 
 
@@ -136,9 +205,9 @@ float Graph::floydMarshall(int idSource, int idTarget){
 
    
 
-float Graph::dijkstra(int idSource, int idTarget){
-    
-}
+float Graph::dijkstra(int origem, int destino){
+	return 0;
+};
 
 //function that prints a topological sorting
 void topologicalSorting(){
@@ -157,4 +226,64 @@ Graph* agmKuskal(){
 }
 Graph* agmPrim(){
 
+}
+
+void Graph::printGrafo() {
+    cout << "Imprimindo o Grafo" << endl;
+	Node* no = this->first_node;
+	Edge* aresta;
+	while (no != nullptr)
+	{  
+		cout << no->getId();
+		aresta = no->getFirstEdge();
+		if (aresta != nullptr) {
+			while (aresta != nullptr)
+			{
+				cout << "-(" << aresta->getWeight() << ")-" << aresta->getTargetId();
+				aresta = aresta->getNextEdge();
+			}
+		}
+		no = no->getNextNode();
+		cout << endl;
+	}
+    cout << "Terminou a impressão" << endl;
+}
+
+void Graph::printGrafoDot(ofstream& file) {
+   //  ofstream grafoDotFile;
+   //  grafoDotFile.open(path,ios::in);
+
+    if(file.is_open()) {
+		cout << "Salvando o Grafo" << endl;
+		Node* no = this->first_node;
+		Edge* aresta;
+		file << "graph { \n";
+		while (no != nullptr) {  
+			aresta = no->getFirstEdge();
+			if (aresta != nullptr) {
+				while (aresta != nullptr)
+				{	
+					
+					if( this->directed == 1) {
+						file << "   " << no->getId() << "->" << aresta->getTargetId() << "\n";
+					} else if (this->weighted_edge == 1) {
+						file << "   " << no->getId() << "--" << aresta->getTargetId();
+						file << " [label=" << aresta->getWeight() <<",weight=" << aresta->getWeight() <<"]" << "\n";
+					} else if (this->weighted_node == 1) {
+
+					} else {
+						file << "   " << no->getId() << "--" << aresta->getTargetId() << "\n";
+					}
+					aresta = aresta->getNextEdge();
+				}
+			}
+			no = no->getNextNode();
+		}
+		file << "}\n" << endl;
+		cout << "Grafo armazanado em /home/romulo/www/Grafos/arquivos/outputFile.txt" << endl;
+    } else {
+        cout << "Falha ao abrir o arquivo" << endl;
+    }
+    file.close();
+    
 }

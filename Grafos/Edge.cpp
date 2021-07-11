@@ -40,7 +40,6 @@ Edge* Edge::getNextEdge(){
 }
 
 float Edge::getWeight(){
-
     return this->weight;
 
 }
